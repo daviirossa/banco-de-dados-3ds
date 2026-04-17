@@ -1,28 +1,24 @@
--- Remove a tabela demo (exemplo) do SQLite
-
+-- Remove tabela demo (exemplo inicial) do SQLite
 DROP TABLE demo;
-
--- Ativa a verificação da FK
-
-PRAGMA foreign_keys = ON;
-
--- Cria a tabela Clientes
+-- Criação da tabela de Clientes
 CREATE TABLE Clientes (
-    ClienteID INTEGER PRIMARY KEY,
-    Nome TEXT NOT NULL
+ClienteID INTEGER PRIMARY KEY,
+Nome TEXT NOT NULL
 );
-
--- Cria a tabela Pedidos
+-- Criação da tabela de Pedidos com FK
 CREATE TABLE Pedidos (
-    PedidoID INTEGER PRIMARY KEY,
-    ClienteID INTEGER NOT NULL,
-    DataPedido TEXT,
-    FOREIGN KEY (ClienteID) REFERENCES Clientes (ClienteID)
+PedidoID INTEGER PRIMARY KEY,
+ClienteID INTEGER NOT NULL,
+DataPedido TEXT,
+FOREIGN KEY (ClienteID) REFERENCES Clientes (ClienteID)
 );
-
--- Insere dados nas duas tabelas
+-- Inserção de dados em Clientes
 INSERT INTO Clientes (Nome) VALUES ('Ana');
 INSERT INTO Clientes (Nome) VALUES ('Bruno');
-
--- Teste da FK ou chave estrangeira
-INSERT INTO Pedidos (ClienteID, DataPedido) VALUES (99, '2026-04-08');
+-- Inserção de dados em Pedidos
+INSERT INTO Pedidos (ClienteID, DataPedido) VALUES (1, '2026-04-06');
+INSERT INTO Pedidos (ClienteID, DataPedido) VALUES (2, '2026-04-07');
+-- Consulta inicial: juntar Clientes e Pedidos
+SELECT p.PedidoID, c.Nome, p.DataPedido
+FROM Pedidos p
+JOIN Clientes c ON p.ClienteID = c.ClienteID;
